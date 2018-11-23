@@ -18,13 +18,14 @@ int main(int argc, char **argv)
 {
     gfxInitDefault();
     consoleInit(NULL);
+	socketInitializeDefault();
 	printf("press A to continue or press + to exit\n");
 	
 	CURL *curl; 
 	FILE *fp;
 	CURLcode res;
-	char *url = "http://www.wiiubru.com/appstore.nro"; // string used for curl_easy_setopt
-	char outfilename[FILENAME_MAX] = "sdmc:/switch/appstoreNXtest.nro"; // file used for curl_easy_setopt
+	char *url = "http://projects00.000webhostapp.com/helloSDL2.nro"; // string used for curl_easy_setopt
+	char outfilename[FILENAME_MAX] = "sdmc:/switch/NXtest.nro"; // file used for curl_easy_setopt
 	curl_global_init(CURL_GLOBAL_DEFAULT); // initializing/calling functions
 	curl = curl_easy_init(); // initializing/calling functions
 	
@@ -68,13 +69,13 @@ int main(int argc, char **argv)
 	
 	}
 	
-	printf("\ndone! Press B or + to exit");
+	printf("\ndone! Press HOME to exit, otherwise will probaly crash if pressing +");
 				
 	while(appletMainLoop())
 	{
 		hidScanInput();
 		u32 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
-		if ((kDown & KEY_B) || (kDown & KEY_PLUS)) break; /* a simple trick to use both or more keys for the same function as of this example, breaking while loop */
+		if (kDown & KEY_PLUS) break;
 		
 		gfxFlushBuffers();
         gfxSwapBuffers();
@@ -85,4 +86,3 @@ int main(int argc, char **argv)
 	curl_global_cleanup();
     return EXIT_SUCCESS;
 }
-
